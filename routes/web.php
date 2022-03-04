@@ -2,6 +2,12 @@
 
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ResumeController;
+use App\Http\Controllers\UserDetailController;
+use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\SkillController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,23 +26,23 @@ Route::get('/', function () {
 });
 
 
-Route::get('/resume/download','ResumeController@download')->name('resume.download');
-Route::get('/resume', 'ResumeController@index')->name('resume.index');
+Route::get('/resume/download', [ResumeController::class, 'download'])->name('resume.download');
+Route::get('/resume', [ResumeController::class, 'index'])->name('resume.index');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 
-// Route::get('user-detail/create', 'UserDetailController@create')->middleware('auth')->name('user-detail.create');
+Route::middleware('auth')->group(function () {
+    Route::resource('user-detail', UserDetailController::class);
 
-// Route::post('user-detail', 'UserDetailController@store')->middleware('auth');
+Route::resource('education', EducationController::class);
+
+Route::resource('experience', ExperienceController::class);
+Route::resource('skill', SkillController::class);
+});
 
 
 
-Route::resource('user-detail', 'UserDetailController')->middleware('auth');
 
-Route::resource('education', 'EducationController')->middleware('auth');
-
-Route::resource('experience', 'ExperienceController')->middleware('auth');
-Route::resource('skill', 'SkillController')->middleware('auth');

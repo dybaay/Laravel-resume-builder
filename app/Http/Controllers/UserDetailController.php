@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\UserDetail;
+use App\Models\UserDetail;
 use Illuminate\Http\Request;
 
 class UserDetailController extends Controller
